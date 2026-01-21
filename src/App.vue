@@ -6,6 +6,7 @@ const currentCamera = shallowRef<string>();
 
 const { videoInputs: cameras } = useDevicesList({
   requestPermissions: true,
+  constraints: { audio: false },
   onUpdated() {
     if (!cameras.value.find((i) => i.deviceId === currentCamera.value))
       currentCamera.value = cameras.value[0]?.deviceId;
@@ -15,7 +16,8 @@ const { videoInputs: cameras } = useDevicesList({
 const video = useTemplateRef("video");
 
 const constraints = reactive({
-  video: { deviceId: { exact: currentCamera }, aspectRatio: 9 / 16 },
+  video: { deviceId: { exact: currentCamera }, aspectRatio: { exact: 9 / 16 } },
+  audio: false,
 });
 
 const { stream, enabled, start } = useUserMedia({ constraints });
